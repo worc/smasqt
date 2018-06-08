@@ -1,0 +1,37 @@
+{
+  "name": "smasqt",
+  "version": "0.0.0-IGNORED",
+  "description": "fictional calendar for 351 days per year and 26 days per lunar month",
+  "main": "server.js",
+  "scripts": {
+    "build": "webpack --progress --config webpack.config.js",
+    "dev": "env NODE_ENV=dev nodemon server.js --exec babel-node",
+    "minify": "webpack --progress --config webpack.config.minify.js",
+    "serve": "node dist/server.min.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --config webpack.config.js --watch"
+  },
+  "author": "worc",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.0",
+    "styled-components": "^3.3.2",
+    "webpack-cli": "^3.0.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "nodemon": "^1.17.5",
+    "webpack": "^4.11.1"
+  }
+}
