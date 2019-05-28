@@ -1,52 +1,51 @@
-const path = require("path");
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const path = require('path')
 
-module.exports = [
-  {
-    name: "server",
-    entry: "./server.js",
-    target: "node",
-    mode: "development",
+const NODE_ENV = process.env.NODE_ENV
 
-    output: {
-      path: path.resolve(__dirname, "dist"),
-      filename: "server.js"
-    },
+module.exports = {
+  mode: NODE_ENV,
 
-    resolve: {
-      modules: ['shared', 'node_modules']
-    },
+  devtool: NODE_ENV === 'production' ? 'source-map' : 'eval',
 
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: "babel-loader",
-        }
-      ]
-    },
-  }, {
-    name: 'client',
-    entry: './client.js',
-    mode: "development",
+  devServer: {
+    contentBase: 'dist/',
+    historyApiFallback: true,
+  },
 
-    output: {
-      path: path.resolve(__dirname, 'dist'),
-      filename: 'client.js',
-    },
+  entry: {
+    main: path.resolve(__dirname, 'src/index.js'),
+  },
 
-    resolve: {
-      modules: ['shared', 'node_modules']
-    },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [ '@babel/preset-env', '@babel/preset-react' ],
+          },
+        },
+      },
+    ]
+  },
 
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: 'babel-loader'
-        }
-      ]
-    }
-  }
-];
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'src/index.ejs',
+    }),
+    new BundleAnalyzerPlugin({
+      logLevel: 'error',
+      analyzerMode: 'static',
+      reportFilename: path.join(__dirname, `.bundle_analysis.html`),
+      openAnalyzer: false,
+    }),
+  ],
+
+  output: {
+    publicPath: '/',
+  },
+}
